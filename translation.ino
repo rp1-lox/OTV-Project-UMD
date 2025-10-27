@@ -22,6 +22,7 @@ void right();
 void go(){
     /*
     +i +j
+    
     +j +i
     */
 }
