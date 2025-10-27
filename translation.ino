@@ -11,7 +11,8 @@ There are a couple of things that need to be input into each function first:
 
 
 */
-
+#include Adafruit-Motor-Shield-library-master\Adafruit-Motor-Shield-library-master\AFMotor.h
+#include ENES100ArduinoLibrary-master\ENES100ArduinoLibrary-master\src\Enes100.h
 
 void go();
 void back();
