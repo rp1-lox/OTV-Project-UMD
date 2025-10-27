@@ -34,7 +34,23 @@ int D_IN1 = //pin number to positive H-bridge;
 int D_IN2 = //pin number to negative H-bridge;;
 int D_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
 
+void setup() {
+  pinMode(A_IN1, OUTPUT);
+  pinMode(A_IN2, OUTPUT);
+  pinMode(A_PWM, OUTPUT);
 
+  pinMode(B_IN1, OUTPUT);
+  pinMode(B_IN2, OUTPUT);
+  pinMode(B_PWM, OUTPUT);
+
+  pinMode(C_IN1, OUTPUT);
+  pinMode(C_IN2, OUTPUT);
+  pinMode(C_PWM, OUTPUT);
+
+  pinMode(D_IN1, OUTPUT);
+  pinMode(D_IN2, OUTPUT);
+  pinMode(D_PWM, OUTPUT);
+}
 
 
 void go();
