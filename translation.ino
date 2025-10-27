@@ -57,6 +57,8 @@ void go();
 void back();
 void left();
 void right();
+void cw():
+void ccw():
 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive){
     if(positive){
@@ -96,15 +98,29 @@ void back(){
 void left(){
     setMotor(A_IN1, A_IN2, A_PWM, false);
     setMotor(B_IN1, B_IN2, B_PWM, true);
-    setMotor(C_IN1, C_IN2, C_PWM, false);
-    setMotor(D_IN1, D_IN2, D_PWM, true);
+    setMotor(C_IN1, C_IN2, C_PWM, true);
+    setMotor(D_IN1, D_IN2, D_PWM, false);
 }
 
 void right(){
     setMotor(A_IN1, A_IN2, A_PWM, true);
     setMotor(B_IN1, B_IN2, B_PWM, false);
+    setMotor(C_IN1, C_IN2, C_PWM, false);
+    setMotor(D_IN1, D_IN2, D_PWM, true);
+}
+
+void cc(){
+    setMotor(A_IN1, A_IN2, A_PWM, true);
+    setMotor(B_IN1, B_IN2, B_PWM, false);
     setMotor(C_IN1, C_IN2, C_PWM, true);
     setMotor(D_IN1, D_IN2, D_PWM, false);
+}
+
+void ccw(){
+    setMotor(A_IN1, A_IN2, A_PWM, false);
+    setMotor(B_IN1, B_IN2, B_PWM, true);
+    setMotor(C_IN1, C_IN2, C_PWM, false);
+    setMotor(D_IN1, D_IN2, D_PWM, true);
 }
 
 //etc 
