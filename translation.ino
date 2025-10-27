@@ -11,8 +11,31 @@ There are a couple of things that need to be input into each function first:
 
 
 */
-#include Adafruit-Motor-Shield-library-master\Adafruit-Motor-Shield-library-master\AFMotor.h
-#include ENES100ArduinoLibrary-master\ENES100ArduinoLibrary-master\src\Enes100.h
+#include <Adafruit-Motor-Shield-library-master\Adafruit-Motor-Shield-library-master\AFMotor.h>
+#include <ENES100ArduinoLibrary-master\ENES100ArduinoLibrary-master\src\Enes100.h>
+
+// Motor A pins
+int A_IN1 = //pin number to positive H-bridge;
+int A_IN2 = //pin number to negative H-bridge;
+int A_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+
+// Motor B pins
+int B_IN1 = //pin number to positive H-bridge;
+int B_IN2 = //pin number to negative H-bridge;;
+int B_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+
+// Motor C pins
+int C_IN1 = //pin number to positive H-bridge;
+int C_IN2 = //pin number to negative H-bridge;;
+int C_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+
+// Motor D pins
+int D_IN1 = //pin number to positive H-bridge;
+int D_IN2 = //pin number to negative H-bridge;;
+int D_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+
+
+
 
 void go();
 void back();
