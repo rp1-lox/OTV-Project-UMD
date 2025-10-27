@@ -122,5 +122,3 @@ void ccw(){
     setMotor(C_IN1, C_IN2, C_PWM, false);
     setMotor(D_IN1, D_IN2, D_PWM, true);
 }
-
-//etc 
