@@ -52,11 +52,23 @@ void setup() {
   pinMode(D_PWM, OUTPUT);
 }
 
-
+void setMotor();
 void go();
 void back();
 void left();
 void right();
+
+void setMotor(int IN1, int IN2, int pwmPIN, bool positive){
+    if(positive){
+        IN1 = HIGH;
+        IN2 = LOW;
+    }
+    else{
+        IN1 = LOW;
+        IN2 = HIGH;
+    }
+    pwnPIN = SPEED; //speed will be a constant we define outside CONST SPEED = x
+}
 
 void go(){
     /*
@@ -64,6 +76,10 @@ void go(){
     
     +j +i
     */
+    setMotor(A_IN1, A_IN2, A_PWM, true);
+    setMotor(B_IN1, B_IN2, B_PWM, true);
+    setMotor(C_IN1, C_IN2, C_PWM, true);
+    setMotor(D_IN1, D_IN2, D_PWM, true);
 }
 
 void back(){
@@ -71,6 +87,24 @@ void back(){
     -i -j
     -j -i
     */
+    setMotor(A_IN1, A_IN2, A_PWM, false);
+    setMotor(B_IN1, B_IN2, B_PWM, false);
+    setMotor(C_IN1, C_IN2, C_PWM, false);
+    setMotor(D_IN1, D_IN2, D_PWM, false);
+}
+
+void left(){
+    setMotor(A_IN1, A_IN2, A_PWM, false);
+    setMotor(B_IN1, B_IN2, B_PWM, true);
+    setMotor(C_IN1, C_IN2, C_PWM, false);
+    setMotor(D_IN1, D_IN2, D_PWM, true);
+}
+
+void right(){
+    setMotor(A_IN1, A_IN2, A_PWM, true);
+    setMotor(B_IN1, B_IN2, B_PWM, false);
+    setMotor(C_IN1, C_IN2, C_PWM, true);
+    setMotor(D_IN1, D_IN2, D_PWM, false);
 }
 
 //etc 
