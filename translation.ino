@@ -122,3 +122,47 @@ void ccw(){
     setMotor(C_IN1, C_IN2, C_PWM, false);
     setMotor(D_IN1, D_IN2, D_PWM, true);
 }
+
+
+// This function picks the correct maneuver based on heading and movement command
+void moveRelative(char heading, String movement) {
+  // Table:           movement      0 = go/forward, 1 = back/backward, 2 = left, 3 = right
+  // Heading Index:   0 = N, 1 = E, 2 = S, 3 = W
+  void (*relativeMotions[4][4])() = {
+    // go         back         left         right
+    {   go,       back,        left,        right  }, // Heading N
+    {  right,     left,        go,          back   }, // Heading E
+    {  back,       go,         right,       left   }, // Heading S
+    {  left,      right,       back,         go    }  // Heading W
+  };
+
+  int headingIdx, moveIdx;
+  // Translate heading to index
+  if      (heading == 'N') headingIdx = 0;
+  else if (heading == 'E') headingIdx = 1;
+  else if (heading == 'S') headingIdx = 2;
+  else if (heading == 'W') headingIdx = 3;
+  else return;
+
+  // Translate movement to index
+  if      (movement == "go")     moveIdx = 0;
+  else if ( movement == "back")  moveIdx = 1;
+  else if (movement == "left")   moveIdx = 2;
+  else if (movement == "right")  moveIdx = 3;
+  else return;
+
+  // Execute the mapped movement
+  (relativeMotions[headingIdx][moveIdx])();
+}
+
+void loop() {
+  // EXAMPLES:
+  moveRelative('N', "go");   // moves forward with heading N
+  delay(1000);
+  moveRelative('N', "left");      // moves left with heading N (i.e., world-west)
+  delay(1000);
+  moveRelative('E', "forward");   // moves right with heading E (i.e., world-east)
+  delay(1000);
+  moveRelative('E', "left");      // moves forward with heading E (i.e., world-north)
+  delay(1000);
+}
