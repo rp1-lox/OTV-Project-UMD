@@ -1,4 +1,5 @@
 #include <translation.ino>
 void loop(
-    go();
+
+    if(x =! goToX) go();
 )

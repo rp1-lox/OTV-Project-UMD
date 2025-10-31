@@ -1,18 +1,24 @@
-/*
-There are a couple of things that need to be input into each function first:
-    1. power
-        - use the equations that we got in class today but we might need to do some
-          more math by finding the resistance?? not so sure this might be done better with testing 
-        - lets use the variable pwm as the power.
-            - this should be an int between 0-255 but chat gpt said something about scaling it down
-              between -1, 0
-    2. pin #
-    3. to get negative spin use the other pin in the h-bridge
-
-
-*/
 #include <Adafruit-Motor-Shield-library-master\Adafruit-Motor-Shield-library-master\AFMotor.h>
 #include <ENES100ArduinoLibrary-master\ENES100ArduinoLibrary-master\src\Enes100.h>
+
+void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
+void relmotion(float heading, char axis, float d)
+
+void loop(){
+    float x = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
+    float y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
+    float heading = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
+    float goToX = 4;//put desired x coordinate here
+    float goToY = 4;//put desired x coordinate here
+    float deltaX = goToX - x;
+    float deltaY = goToY - y;
+    if (-.1< deltaX <.1) relmotion(heading,'x', goToX);
+    if (-.1< deltaY <.1) relmotion(heading,'y', goToY);
+
+
+
+}
+
 
 // Motor A pins
 int A_IN1 = //pin number to positive H-bridge;
@@ -52,13 +58,6 @@ void setup() {
   pinMode(D_PWM, OUTPUT);
 }
 
-void setMotor();
-void go();
-void back();
-void left();
-void right();
-void cw():
-void ccw():
 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive){
     if(positive){
@@ -124,45 +123,71 @@ void ccw(){
 }
 
 
-// This function picks the correct maneuver based on heading and movement command
-void moveRelative(char heading, String movement) {
-  // Table:           movement      0 = go/forward, 1 = back/backward, 2 = left, 3 = right
-  // Heading Index:   0 = N, 1 = E, 2 = S, 3 = W
-  void (*relativeMotions[4][4])() = {
-    // go         back         left         right
-    {   go,       back,        left,        right  }, // Heading N
-    {  right,     left,        go,          back   }, // Heading E
-    {  back,       go,         right,       left   }, // Heading S
-    {  left,      right,       back,         go    }  // Heading W
-  };
 
-  int headingIdx, moveIdx;
-  // Translate heading to index
-  if      (heading == 'N') headingIdx = 0;
-  else if (heading == 'E') headingIdx = 1;
-  else if (heading == 'S') headingIdx = 2;
-  else if (heading == 'W') headingIdx = 3;
+/*
+if deltaX is positive --> left
+if deltaX is negative --> right
+if deltaY is positive --> go
+if deltaY is negative --> back
+
+
+if heading == 0
+    north == go(), south == back(), west == left(), east == right()
+if heading ~~ 1.5
+    north == right(), south == left(), west == go(), east == back()
+if heading ~~ -1.5
+    north == left(), south == right(), west == back(), east == go()
+if heading ~~ abv 3.1
+    north == back(), south == go(), west == right(), east == go()
+
+
+
+input            output
+delta X and Y    2.as long as the x position is not within a margin of error, continue 
+heading           
+*/
+
+
+
+void relmotion(float heading, char axis, float d){
+    int headingIdx, moveIdx;
+    void (*moveRelative[4][4])() = {
+        //go,     back,       left,       right
+        { go,     back,       left,       right }, // Heading N
+        { right,  left,       go,         back  }, // Heading E
+        { back,   go,         right,      left  }, // Heading S
+        { left,   right,      back,       go    }  // Heading W
+    };
+
+    
+// Translate heading to index
+  if      (-0.1 < heading < 0.1) headingIdx = 0;
+  else if (-1.4 < heading <-1.6) headingIdx = 1;
+  else if ( 3.0 < heading < 3.2) headingIdx = 2;
+  else if ( 1.4 < heading < 1.6) headingIdx = 3;
   else return;
 
-  // Translate movement to index
-  if      (movement == "go")     moveIdx = 0;
-  else if ( movement == "back")  moveIdx = 1;
-  else if (movement == "left")   moveIdx = 2;
-  else if (movement == "right")  moveIdx = 3;
+// Translate desired direction to index
+if (axis == 'x'){
+  if        (x > 0) moveIdx = 0;
+  else if   (x < 0) moveIdx = 1;
+  else return
+}
+else if (axis == 'y'){
+  else if   (y < 0) moveIdx = 2;
+  else if   (y > 0) moveIdx = 3;
   else return;
-
-  // Execute the mapped movement
-  (relativeMotions[headingIdx][moveIdx])();
 }
 
-void loop() {
-  // EXAMPLES:
-  moveRelative('N', "go");   // moves forward with heading N
-  delay(1000);
-  moveRelative('N', "left");      // moves left with heading N (i.e., world-west)
-  delay(1000);
-  moveRelative('E', "forward");   // moves right with heading E (i.e., world-east)
-  delay(1000);
-  moveRelative('E', "left");      // moves forward with heading E (i.e., world-north)
-  delay(1000);
+  moveRelative[headingIdx][moveIdx]();
+
 }
+
+
+
+
+
+
+
+
+
