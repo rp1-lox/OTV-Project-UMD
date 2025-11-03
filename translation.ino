@@ -2,21 +2,23 @@
 #include <ENES100ArduinoLibrary-master\ENES100ArduinoLibrary-master\src\Enes100.h>
 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
-void relmotion(float heading, char axis, float d)
+void relmotion(extern float heading, char axis, float d)
+extern float idealx;
+extern float idealy;
 
 void loop(){
     float x = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
     float y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
     float heading = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
-    float goToX = 4;//put desired x coordinate here
-    float goToY = 4;//put desired x coordinate here
+    float goToX = idealx;//put desired x coordinate here
+    float goToY = idealy;//put desired x coordinate here
     float deltaX = goToX - x;
     float deltaY = goToY - y;
     if (abs(deltaX) > 0.1) relmotion(heading, 'x', deltaX);
     else if (abs(deltaY) > 0.1) relmotion(heading, 'y', deltaY);
-
   // Add delay as needed to prevent command spam
   delay(100);
+  break;
 }
 
 
