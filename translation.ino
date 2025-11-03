@@ -1,5 +1,7 @@
-#include <Adafruit-Motor-Shield-library-master\Adafruit-Motor-Shield-library-master\AFMotor.h>
-#include <ENES100ArduinoLibrary-master\ENES100ArduinoLibrary-master\src\Enes100.h>
+#include<stdio.h>
+#include <wifimodule.h>
+#include <enes100.h>
+
 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
 void relmotion(extern float heading, char axis, float d)
