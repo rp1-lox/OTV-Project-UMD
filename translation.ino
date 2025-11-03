@@ -12,11 +12,11 @@ void loop(){
     float goToY = 4;//put desired x coordinate here
     float deltaX = goToX - x;
     float deltaY = goToY - y;
-    if (-.1< deltaX <.1) relmotion(heading,'x', goToX);
-    if (-.1< deltaY <.1) relmotion(heading,'y', goToY);
+    if (abs(deltaX) > 0.1) relmotion(heading, 'x', deltaX);
+    else if (abs(deltaY) > 0.1) relmotion(heading, 'y', deltaY);
 
-
-
+  // Add delay as needed to prevent command spam
+  delay(100);
 }
 
 
@@ -40,6 +40,8 @@ int D_IN1 = //pin number to positive H-bridge;
 int D_IN2 = //pin number to negative H-bridge;;
 int D_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
 
+const int SPEED = 150; // Change this value as needed(changes the pwm)
+
 void setup() {
   pinMode(A_IN1, OUTPUT);
   pinMode(A_IN2, OUTPUT);
@@ -59,16 +61,11 @@ void setup() {
 }
 
 
-void setMotor(int IN1, int IN2, int pwmPIN, bool positive){
-    if(positive){
-        IN1 = HIGH;
-        IN2 = LOW;
-    }
-    else{
-        IN1 = LOW;
-        IN2 = HIGH;
-    }
-    pwnPIN = SPEED; //speed will be a constant we define outside CONST SPEED = x
+
+void setMotor(int IN1, int IN2, int pwmPIN, bool positive) {
+  digitalWrite(IN1, positive ? HIGH : LOW);
+  digitalWrite(IN2, positive ? LOW : HIGH);
+  analogWrite(pwmPIN, SPEED);
 }
 
 void go(){
@@ -122,72 +119,36 @@ void ccw(){
     setMotor(D_IN1, D_IN2, D_PWM, true);
 }
 
+// Relational movement based on heading and coordinate axis
+void relmotion(float heading, char axis, float delta) {
+  int headingIdx = -1, moveIdx = -1;
 
+  // Map heading to index (allowing some tolerance)
+  // Heading: N = 0, E = 1, S = 2, W = 3
+  if (abs(heading) < 0.2) headingIdx = 0;            // North
+  else if (abs(heading - 1.57) < 0.2) headingIdx = 1; // East
+  else if (abs(abs(heading) - 3.14) < 0.2) headingIdx = 2; // South
+  else if (abs(heading + 1.57) < 0.2) headingIdx = 3; // West
+  
+  // Map axis and movement to index
+  if (axis == 'x') {
+    if (delta > 0.1) moveIdx = 3;    // Move right
+    else if (delta < -0.1) moveIdx = 2; // Move left
+  } else if (axis == 'y') {
+    if (delta > 0.1) moveIdx = 0;    // Move forward
+    else if (delta < -0.1) moveIdx = 1; // Move backward
+  }
 
-/*
-if deltaX is positive --> left
-if deltaX is negative --> right
-if deltaY is positive --> go
-if deltaY is negative --> back
+  // Movement matrix, indexed [heading][move]
+  void (*moveRelative[4][4])() = {
+    { go, back, left, right }, // Heading N
+    { right, left, go, back }, // Heading E
+    { back, go, right, left }, // Heading S
+    { left, right, back, go }  // Heading W
+  };
 
-
-if heading == 0
-    north == go(), south == back(), west == left(), east == right()
-if heading ~~ 1.5
-    north == right(), south == left(), west == go(), east == back()
-if heading ~~ -1.5
-    north == left(), south == right(), west == back(), east == go()
-if heading ~~ abv 3.1
-    north == back(), south == go(), west == right(), east == go()
-
-
-
-input            output
-delta X and Y    2.as long as the x position is not within a margin of error, continue 
-heading           
-*/
-
-
-
-void relmotion(float heading, char axis, float d){
-    int headingIdx, moveIdx;
-    void (*moveRelative[4][4])() = {
-        //go,     back,       left,       right
-        { go,     back,       left,       right }, // Heading N
-        { right,  left,       go,         back  }, // Heading E
-        { back,   go,         right,      left  }, // Heading S
-        { left,   right,      back,       go    }  // Heading W
-    };
-
-    
-// Translate heading to index
-  if      (-0.1 < heading < 0.1) headingIdx = 0;
-  else if (-1.4 < heading <-1.6) headingIdx = 1;
-  else if ( 3.0 < heading < 3.2) headingIdx = 2;
-  else if ( 1.4 < heading < 1.6) headingIdx = 3;
-  else return;
-
-// Translate desired direction to index
-if (axis == 'x'){
-  if        (x > 0) moveIdx = 0;
-  else if   (x < 0) moveIdx = 1;
-  else return
+  // If both indices are valid, perform movement
+  if (headingIdx != -1 && moveIdx != -1) {
+    moveRelative[headingIdx][moveIdx]();
+  }
 }
-else if (axis == 'y'){
-  else if   (y < 0) moveIdx = 2;
-  else if   (y > 0) moveIdx = 3;
-  else return;
-}
-
-  moveRelative[headingIdx][moveIdx]();
-
-}
-
-
-
-
-
-
-
-
-
