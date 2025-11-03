@@ -4,7 +4,9 @@
 void setup() {
     // Initialize Enes100 Library
     // Team Name, Mission Type, Marker ID, Room Number, Wifi Module TX Pin, Wifi Module RX Pin
-    Enes100.begin("Waterboys", WATER, //522 or 534, 1120, //tx pin11, //rx pin8);
+    int txpin = 50;
+    int rxpin = 51;
+    Enes100.begin("Waterboys", WATER, //522 or 534, 1120, txpin, rxpin);
     // At this point we know we are connected.
     Enes100.println("Connected...");
 }
