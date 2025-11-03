@@ -14,11 +14,13 @@ void loop(){
     float goToY = idealy;//put desired x coordinate here
     float deltaX = goToX - x;
     float deltaY = goToY - y;
+
+    if (abs(deltaX < 0.1) && abs(deltaY < 0.1)) break;
+
     if (abs(deltaX) > 0.1) relmotion(heading, 'x', deltaX);
     else if (abs(deltaY) > 0.1) relmotion(heading, 'y', deltaY);
   // Add delay as needed to prevent command spam
   delay(100);
-  break;
 }
 
 
