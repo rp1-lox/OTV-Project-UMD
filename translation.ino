@@ -7,7 +7,7 @@ void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
 void relmotion(extern float heading, char axis, float d)
 extern float idealx;
 extern float idealy;
-
+// at some point we need to move this to main 
 void loop(){
     float x = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
     float y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
