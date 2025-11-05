@@ -5,5 +5,5 @@
 #include <wifimodule.ino>
 
 char a_or_b (float posx, float posy){
-    if ()
+    if(posY > )
 }
