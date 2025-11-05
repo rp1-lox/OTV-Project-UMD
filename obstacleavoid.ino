@@ -11,23 +11,21 @@ float heading = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if
 
 //need distance from OS sensor and 
 
-void loop(){
-    float posX = Enes100.getX();
-    float posY = Enes100.getY();
+void avoid(){
     if (!Enes100.isVisible()) {
         stop();
 // send message that the vision system is not working 
     }
     else if(x < 2.8){
         if(delta() < /*tolerence*/){
-            go()
+            go();
         }
         else if (delta() > /*tolerence*/){
             if ( y > 1){
-                right()
+                right();
             }
             else if (y < 1){
-                left()
+                left();
             }
         }
     }
