@@ -1,6 +1,6 @@
 #include<stdio.h>
-#include <wifimodule.h>
-#include <enes100.h>
+#include <wifimodule.ino>
+#include <enes100.ino>
 
 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive);

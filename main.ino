@@ -28,16 +28,4 @@ outside of the loop()
     5.orient to 0 degrees
     6.run obstacle avoidance
     7. nav under log and into endzone
-
-
-
-
-
-
-
-
-
-
-
-
 */
