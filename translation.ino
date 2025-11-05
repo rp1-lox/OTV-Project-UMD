@@ -9,6 +9,10 @@ extern float idealx;
 extern float idealy;
 // at some point we need to move this to main 
 void loop(){
+    if (!Enes100.isVisible()) {
+        stop();
+// send message that the vision system is not working 
+    }
     float x = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
     float y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
     float heading = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
@@ -17,7 +21,6 @@ void loop(){
     float deltaX = goToX - x;
     float deltaY = goToY - y;
 
-    if (abs(deltaX < 0.1) && abs(deltaY < 0.1)) break;
 
     if (abs(deltaX) > 0.1) relmotion(heading, 'x', deltaX);
     else if (abs(deltaY) > 0.1) relmotion(heading, 'y', deltaY);
@@ -125,6 +128,15 @@ void ccw(){
     setMotor(D_IN1, D_IN2, D_PWM, true);
 }
 
+
+void stop() {
+    // Set all PWM values to 0 to stop motors
+    analogWrite(A_PWM, 0);
+    analogWrite(B_PWM, 0);
+    analogWrite(C_PWM, 0);
+    analogWrite(D_PWM, 0);
+}
+
 // Relational movement based on heading and coordinate axis
 void relmotion(float heading, char axis, float delta) {
   int headingIdx = -1, moveIdx = -1;
@@ -157,4 +169,14 @@ void relmotion(float heading, char axis, float delta) {
   if (headingIdx != -1 && moveIdx != -1) {
     moveRelative[headingIdx][moveIdx]();
   }
+}
+
+bool isVisible() {
+    float x = Enes100.getX();
+    float y = Enes100.getY();
+    // If either x or y is -1, marker is not visible
+    if (x == -1 || y == -1) {
+        return false;
+    }
+    return true;
 }
