@@ -78,11 +78,6 @@ void setMotor(int IN1, int IN2, int pwmPIN, bool positive) {
 }
 
 void go(){
-    /*
-    +i +j
-    
-    +j +i
-    */
     setMotor(A_IN1, A_IN2, A_PWM, true);
     setMotor(B_IN1, B_IN2, B_PWM, true);
     setMotor(C_IN1, C_IN2, C_PWM, true);
@@ -90,10 +85,6 @@ void go(){
 }
 
 void back(){
-    /*
-    -i -j
-    -j -i
-    */
     setMotor(A_IN1, A_IN2, A_PWM, false);
     setMotor(B_IN1, B_IN2, B_PWM, false);
     setMotor(C_IN1, C_IN2, C_PWM, false);
