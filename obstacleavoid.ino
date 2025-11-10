@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include <translation.ino>
-#include <ultrasonic.ino>
-#include <wifimodule.h>
-#include <translation.ino>
+#include "Enes100.h"
+#include "waterboys.h"
 
 using namespace std;
 

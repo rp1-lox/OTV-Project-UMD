@@ -4,6 +4,7 @@
 extern float X;//x pos
 extern float Y;//y pos
 extern float H;//heading
+extern bool V;//is visible
 /*
 for global variables label extern in header file and define only once in any of the files 
 e.g extern float heading; and float heading = ....;
