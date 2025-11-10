@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <Enes100.h>
+#include "waterboys.h"
 
 void setup() {
     // Initialize Enes100 Library

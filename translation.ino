@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include <stdio.h>
+#include "waterboys.h"
 #include <wifimodule.ino>
 #include <enes100.ino>
 
@@ -105,7 +106,7 @@ void right(){
     setMotor(D_IN1, D_IN2, D_PWM, true);
 }
 
-void cc(){
+void cw(){
     setMotor(A_IN1, A_IN2, A_PWM, true);
     setMotor(B_IN1, B_IN2, B_PWM, false);
     setMotor(C_IN1, C_IN2, C_PWM, true);

@@ -1,13 +1,28 @@
-#include <translation.ino>
-#include <starting_zone.ino>
-#include <ENEE100.h>
+#include <studio.h>
+#include "waterboys.h"
+#include "ENEE100.h"
+
+void setup(){
+    /*
+    initialize all pin numbers here
+    
+    
+    
+    
+    
+    
+    */
+}
+
+
+
 int step = 0;
 int m_step = 0;
 char starting point;
 void loop(
-    float x = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
-    float y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
-    float heading = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
+    float X = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
+    float Y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
+    float H = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
     bool v = Enes100.isVisible(); // Is your aruco visible? True or False.
     if (step = 0){
         a_or_b (x, y)

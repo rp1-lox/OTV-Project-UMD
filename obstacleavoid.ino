@@ -3,8 +3,7 @@
 #include <ultrasonic.ino>
 #include <wifimodule.h>
 #include <translation.ino>
-#include <iostream>
-#include <vector>
+
 using namespace std;
 
 float position == wifimodule.getY();
@@ -16,9 +15,9 @@ float score[3];
 int chosenBlock = 0;
 
 
-void main(){
+void avoid(){
 for (int i = 0; i < samples; i++){
-    idealy = (0.25+(((i*0.5)/(samples/3)));
+    idealy = 0.25+(((i*0.5)/(samples/3)));
     translation.loop();
     depth[i] = ultrasonic.depth();
 }
