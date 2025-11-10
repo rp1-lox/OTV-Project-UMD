@@ -10,7 +10,7 @@ using namespace std;
 float position == wifimodule.getY();
 int samples == 9;
 int depths[samples];
-float tolerances = 0.1; //this should be replaced by something else!!!! determine proper tolerances!!!!!!!
+float tolerances = 1; //this should be replaced by something else!!!! determine proper tolerances!!!!!!!
 float blockPos[] = {0.5, 1, 1.5};
 float score[3];
 int chosenBlock = 0;
