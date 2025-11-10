@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "waterboys.h"
 #include <wifimodule.ino>
-#include <enes100.ino>
+#include "Enes100.h"
 
 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive);

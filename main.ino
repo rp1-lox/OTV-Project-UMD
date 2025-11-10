@@ -1,6 +1,6 @@
 #include <studio.h>
 #include "waterboys.h"
-#include "ENEE100.h"
+#include "Enee100.h"
 
 void setup(){
     /*
