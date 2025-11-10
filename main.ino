@@ -1,4 +1,6 @@
 #include <translation.ino>
+#include <starting_zone.ino>
+#include <ENEE100.h>
 int step = 0;
 int m_step = 0;
 char starting point;
@@ -7,8 +9,10 @@ void loop(
     float y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
     float heading = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
     bool v = Enes100.isVisible(); // Is your aruco visible? True or False.
-
-    if (step == 0){
+    if (step = 0){
+        a_or_b (x, y)
+    }
+    else if (step == 1){
         if(/*if in starting point A*/){
             
         }
