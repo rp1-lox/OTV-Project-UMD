@@ -8,9 +8,9 @@ void relmotion(extern float heading, char axis, float d)
 
 
 
-void translate(float curX, float curY, float idealX, float idealY, float H, float deltaX, float deltaY){
-    if (abs(deltaX) > 0.1) relmotion(H, 'x', deltaX);
-    else if (abs(deltaY) > 0.1) relmotion(H, 'y', deltaY);
+void translate(float curX, float curY, float idealX, float idealY){
+    if (abs(idealX-curX) > 0.1) relmotion(H, 'x', (idealX-curX));
+    else if (abs(idealY-curY) > 0.1) relmotion(H, 'y', idealY-curY);
 }
 
 // Motor A pins
@@ -143,15 +143,6 @@ void relmotion(float heading, char axis, float delta){
   // If both indices are valid, perform movement
   if (headingIdx != -1 && moveIdx != -1) {
     moveRelative[headingIdx][moveIdx]();
+    delay(300);
   }
-}
-
-bool isVisible() {
-    float x = Enes100.getX();
-    float y = Enes100.getY();
-    // If either x or y is -1, marker is not visible
-    if (x == -1 || y == -1) {
-        return false;
-    }
-    return true;
 }

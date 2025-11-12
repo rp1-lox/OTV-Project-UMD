@@ -22,13 +22,12 @@ void relmotion(float heading, char axis, float delta);
 
 char a_or_b (float posy);
 
-bool isVisible();
 
 void avoid();
 
 void ortient(float H, float t);
 
-void translate(float curX, float curY, float idealX, float idealY, float H, float deltaX, float deltaY);
+void translate(float curX, float curY, float idealX, float idealY);
 
 
 
