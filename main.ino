@@ -24,7 +24,7 @@ bool V;//visibility
 //define global variables here
 int step = 0;
 int m_step = 0;
-char starting point;
+char starting_point = 0;
 
 
 //start the loop here
@@ -32,15 +32,21 @@ void loop(
     X = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
     Y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
     H = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
-    bool v = Enes100.isVisible(); // Is your aruco visible? True or False.
-    if (step = 0){
-        a_or_b (x, y)
+    bool V = Enes100.isVisible(); // Is your aruco visible? True or False.
+    if( V == 0 ){
+        Enes100.println("OTV not visible")
+        continue;
     }
-    else if (step == 1){
-        if(/*if in starting point A*/){
+    switch(step){
+        case 1:
+            starting_point = a_or_b (Y);    
+        case 2:
             
-        }
-        else if()
+
+
+
+
+
 
     }
 )

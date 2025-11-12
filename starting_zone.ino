@@ -2,7 +2,7 @@
 #include <stlib.h>
 #include "waterboys.h"
 
-char a_or_b (float posx, float posy){
+char a_or_b (float posy){
     if(posY > 1.0){
         return 'a';
     }

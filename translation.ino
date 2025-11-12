@@ -1,34 +1,17 @@
 #include <stdio.h>
 #include "waterboys.h"
-#include <wifimodule.ino>
 #include "Enes100.h"
 
-
+// at some point we need to move this to main 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
 void relmotion(extern float heading, char axis, float d)
-extern float idealx;
-extern float idealy;
-// at some point we need to move this to main 
-void loop(){
-    if (!Enes100.isVisible()) {
-        stop();
-// send message that the vision system is not working 
-    }
-    float X = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
-    float Y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
-    float H = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
-    float goToX = idealx;//put desired x coordinate here
-    float goToY = idealy;//put desired x coordinate here
-    float deltaX = goToX - x;
-    float deltaY = goToY - y;
 
 
-    if (abs(deltaX) > 0.1) relmotion(heading, 'x', deltaX);
-    else if (abs(deltaY) > 0.1) relmotion(heading, 'y', deltaY);
-  // Add delay as needed to prevent command spam
-  delay(100);
+
+void translate(float curX, float curY, float idealX, float idealY, float H, float deltaX, float deltaY){
+    if (abs(deltaX) > 0.1) relmotion(H, 'x', deltaX);
+    else if (abs(deltaY) > 0.1) relmotion(H, 'y', deltaY);
 }
-
 
 // Motor A pins
 int A_IN1 = //pin number to positive H-bridge;
@@ -130,7 +113,7 @@ void stop() {
 }
 
 // Relational movement based on heading and coordinate axis
-void relmotion(float heading, char axis, float delta) {
+void relmotion(float heading, char axis, float delta){
   int headingIdx = -1, moveIdx = -1;
 
   // Map heading to index (allowing some tolerance)
