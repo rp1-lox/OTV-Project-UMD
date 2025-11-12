@@ -13,25 +13,25 @@ void translate(float curX, float curY, float idealX, float idealY){
     else if (abs(idealY-curY) > 0.1) relmotion(H, 'y', idealY-curY);
 }
 
-// Motor A pins
-int A_IN1 = //pin number to positive H-bridge;
-int A_IN2 = //pin number to negative H-bridge;
-int A_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor A pins from left 
+int A_IN1 = 28;//pin number to positive H-bridge;
+int A_IN2 = 29;//pin number to negative H-bridge;
+int A_PWM = 7;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
 
-// Motor B pins
-int B_IN1 = //pin number to positive H-bridge;
-int B_IN2 = //pin number to negative H-bridge;;
-int B_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor B pins front right
+int B_IN1 = 22;//pin number to positive H-bridge;
+int B_IN2 = 23;//pin number to negative H-bridge;;
+int B_PWM = 4;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
 
-// Motor C pins
-int C_IN1 = //pin number to positive H-bridge;
-int C_IN2 = //pin number to negative H-bridge;;
-int C_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor C pins back left
+int C_IN1 = 26;//pin number to positive H-bridge;
+int C_IN2 = 27;//pin number to negative H-bridge;;
+int C_PWM = 6;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
 
-// Motor D pins
-int D_IN1 = //pin number to positive H-bridge;
-int D_IN2 = //pin number to negative H-bridge;;
-int D_PWM = //pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor D pins back right
+int D_IN1 = 24;//pin number to positive H-bridge;
+int D_IN2 = 25;//pin number to negative H-bridge;;
+int D_PWM = 5;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
 
 const int SPEED = 150; // Change this value as needed(changes the pwm)
 
