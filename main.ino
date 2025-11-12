@@ -40,8 +40,38 @@ void loop(){
     switch(step){
         case 1://determine the starting point
             starting_point = a_or_b (Y);
-            stept += 1;    
-        case 2://move to mission
+            step += 1;  
+        case 2://rotate to propper orientation
+            if(starting_point == 'a'){
+                if(abs(idealH-H) >= 0.1){
+                    ortient(H, idealH/*set the idealH*/);
+                }
+                else if((abs(idealH-H) < 0.1)){
+                    step += 1;
+                    break;
+                }
+                else{
+                   Enes100.println("case 2, 'a', could rotate to idealH/*change this*/"); 
+                   return;//check if this sends back to the loop()
+                }
+            }
+            else if(starting_point == 'b'){
+                if(abs(idealH-H) >= 0.1){
+                    ortient(H, idealH/*set the idealH*/);
+                }
+                else if((abs(idealH-H) < 0.1)){
+                    step += 1;
+                    break;
+                }
+                else{
+                   Enes100.println("case 2, 'b', could rotate to idealH/*change this*/"); 
+                   return;//check if this sends back to the loop()
+                }
+            }
+            else{
+
+            }
+        case 3://move to mission
             if(starting_point == 'a'){
                 if (abs(/*idealX-curX*/) > 0.1 || abs(/*idealY-curY*/) > 0.1){
                     translate(/*float curX, float curY, float idealX, float idealY*/);
@@ -61,11 +91,12 @@ void loop(){
                 }
             }
             else{
-                Enes100.println("starting point could not be determined");
+                Enes100.println("case 3: starting point could not be determined");
                 step = 0;//go back and determine the starting point
                 break;
             }
-        case 3:
+        case 4: //make sure that the arduino is at the mission zone. do this by using the 
+            
 
             
 
