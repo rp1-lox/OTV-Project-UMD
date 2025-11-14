@@ -25,7 +25,7 @@ char a_or_b (float posy);
 
 void avoid();
 
-void ortient(float H, float t);
+void orient(float H, float t);
 
 void translate(float curX, float curY, float idealX, float idealY);
 

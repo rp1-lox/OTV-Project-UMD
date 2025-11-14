@@ -14,7 +14,7 @@ float heading = Enes100.getTheta();
 // check if we are facing north facing north
 // if (abs(heading) < 0.2) headingIdx = 0;
 // else loop
-void ortient(float H, float t){// H is the current heading and t is the desired heading
+void orient(float H, float t){// H is the current heading and t is the desired heading
     if(abs(H-t) > .2){
         ccw();
     }

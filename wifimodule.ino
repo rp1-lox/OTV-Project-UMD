@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "Enes100.h"
-#include "waterboys.h"
+/*#include "waterboys.h"*/
 
 void setup() {
     // Initialize Enes100 Library
     // Team Name, Mission Type, Marker ID, Room Number, Wifi Module TX Pin, Wifi Module RX Pin
     int txpin = 50;
     int rxpin = 51;
-    Enes100.begin("Waterboys", WATER,); //522 or 534, 1120, txpin, rxpin);
+    Enes100.begin("Waterboys", WATER, 522, 1120, txpin, rxpin);
     // At this point we know we are connected.
     Enes100.println("Connected...");
 }
