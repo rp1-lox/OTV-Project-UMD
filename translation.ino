@@ -13,44 +13,49 @@ void translate(float curX, float curY, float idealX, float idealY){
     else if (abs(idealY-curY) > 0.1) relmotion(H, 'y', idealY-curY);
 }
 
-// Motor A pins from left 
-int A_IN1 = 28;//pin number to positive H-bridge;
-int A_IN2 = 29;//pin number to negative H-bridge;
-int A_PWM = 7;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
+  
+// Motor A (HB1)(OUT1/OUT2)(Front Right)
+const int A_IN1 = 22;
+const int A_IN2 = 23;
+const int A_ENA = 4;   // PWM
 
-// Motor B pins front right
-int B_IN1 = 22;//pin number to positive H-bridge;
-int B_IN2 = 23;//pin number to negative H-bridge;;
-int B_PWM = 4;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor B (HB1)(OUT3/OUT4)(Back Right)
+const int B_IN3 = 24;
+const int B_IN4 = 25;
+const int B_ENB = 5;   // PWM
 
-// Motor C pins back left
-int C_IN1 = 26;//pin number to positive H-bridge;
-int C_IN2 = 27;//pin number to negative H-bridge;;
-int C_PWM = 6;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor C (HB2)(OUT1/OUT2)(Back Left)
+const int C_IN5 = 26;
+const int C_IN6 = 27;
+const int C_ENC = 6;   // PWM
 
-// Motor D pins back right
-int D_IN1 = 24;//pin number to positive H-bridge;
-int D_IN2 = 25;//pin number to negative H-bridge;;
-int D_PWM = 5;//pin number for the power input(controlls speed);  // must be a PWM-capable pin
+// Motor D (HB2)(OUT3/OUT4) (Front Left)
+const int D_IN7 = 28;
+const int D_IN8 = 29;
+const int D_END = 7;   // PWM
 
 const int SPEED = 150; // Change this value as needed(changes the pwm)
 
 void setup() {
+
   pinMode(A_IN1, OUTPUT);
   pinMode(A_IN2, OUTPUT);
-  pinMode(A_PWM, OUTPUT);
+  pinMode(A_ENA, OUTPUT);
 
-  pinMode(B_IN1, OUTPUT);
-  pinMode(B_IN2, OUTPUT);
-  pinMode(B_PWM, OUTPUT);
+  pinMode(B_IN3, OUTPUT);
+  pinMode(B_IN4, OUTPUT);
+  pinMode(B_ENB, OUTPUT);
 
-  pinMode(C_IN1, OUTPUT);
-  pinMode(C_IN2, OUTPUT);
-  pinMode(C_PWM, OUTPUT);
+  pinMode(C_IN5, OUTPUT);
+  pinMode(C_IN6, OUTPUT);
+  pinMode(C_ENC, OUTPUT);
 
-  pinMode(D_IN1, OUTPUT);
-  pinMode(D_IN2, OUTPUT);
-  pinMode(D_PWM, OUTPUT);
+  pinMode(D_IN7, OUTPUT);
+  pinMode(D_IN8, OUTPUT);
+  pinMode(D_END, OUTPUT);
+
+  motorsOff();
+
 }
 
 
@@ -62,54 +67,54 @@ void setMotor(int IN1, int IN2, int pwmPIN, bool positive) {
 }
 
 void go(){
-    setMotor(A_IN1, A_IN2, A_PWM, true);
-    setMotor(B_IN1, B_IN2, B_PWM, true);
-    setMotor(C_IN1, C_IN2, C_PWM, true);
-    setMotor(D_IN1, D_IN2, D_PWM, true);
+    setMotor(A_IN1, A_IN2, A_ENA, true);
+    setMotor(B_IN3, B_IN4, B_ENB, false);
+    setMotor(C_IN5, C_IN6, C_ENC, false);
+    setMotor(D_IN7, D_IN8, D_END, true);
 }
 
 void back(){
-    setMotor(A_IN1, A_IN2, A_PWM, false);
-    setMotor(B_IN1, B_IN2, B_PWM, false);
-    setMotor(C_IN1, C_IN2, C_PWM, false);
-    setMotor(D_IN1, D_IN2, D_PWM, false);
+    setMotor(A_IN1, A_IN2, A_ENA, false);
+    setMotor(B_IN3, B_IN4, B_ENB, true);
+    setMotor(C_IN5, C_IN6, C_ENC, true);
+    setMotor(D_IN7, D_IN8, D_END, false);
 }
 
 void left(){
-    setMotor(A_IN1, A_IN2, A_PWM, false);
-    setMotor(B_IN1, B_IN2, B_PWM, true);
-    setMotor(C_IN1, C_IN2, C_PWM, true);
-    setMotor(D_IN1, D_IN2, D_PWM, false);
+    setMotor(A_IN1, A_IN2, A_ENA, true);
+    setMotor(B_IN3, B_IN4, B_ENB, true);
+    setMotor(C_IN5, C_IN6, C_ENC, false);
+    setMotor(D_IN7, D_IN8, D_END, false);
 }
 
 void right(){
-    setMotor(A_IN1, A_IN2, A_PWM, true);
-    setMotor(B_IN1, B_IN2, B_PWM, false);
-    setMotor(C_IN1, C_IN2, C_PWM, false);
-    setMotor(D_IN1, D_IN2, D_PWM, true);
+    setMotor(A_IN1, A_IN2, A_ENA, false);
+    setMotor(B_IN3, B_IN4, B_ENB, false);
+    setMotor(C_IN5, C_IN6, C_ENC, true);
+    setMotor(D_IN7, D_IN8, D_END, true);
 }
 
 void cw(){
-    setMotor(A_IN1, A_IN2, A_PWM, true);
-    setMotor(B_IN1, B_IN2, B_PWM, false);
-    setMotor(C_IN1, C_IN2, C_PWM, true);
-    setMotor(D_IN1, D_IN2, D_PWM, false);
+    setMotor(A_IN1, A_IN2, A_ENA, false);
+    setMotor(B_IN3, B_IN4, B_ENB, false);
+    setMotor(C_IN5, C_IN6, C_ENC, false);
+    setMotor(D_IN7, D_IN8, D_END, false);
 }
 
 void ccw(){
-    setMotor(A_IN1, A_IN2, A_PWM, false);
-    setMotor(B_IN1, B_IN2, B_PWM, true);
-    setMotor(C_IN1, C_IN2, C_PWM, false);
-    setMotor(D_IN1, D_IN2, D_PWM, true);
+    setMotor(A_IN1, A_IN2, A_ENA, true);
+    setMotor(B_IN3, B_IN4, B_ENB, true);
+    setMotor(C_IN5, C_IN6, C_ENC, true);
+    setMotor(D_IN7, D_IN8, D_END, true);
 }
 
 
 void stop() {
     // Set all PWM values to 0 to stop motors
-    analogWrite(A_PWM, 0);
-    analogWrite(B_PWM, 0);
-    analogWrite(C_PWM, 0);
-    analogWrite(D_PWM, 0);
+    analogWrite(A_PWA, 0);
+    analogWrite(B_PWB, 0);
+    analogWrite(C_PWC, 0);
+    analogWrite(D_PWD, 0);
 }
 
 // Relational movement based on heading and coordinate axis

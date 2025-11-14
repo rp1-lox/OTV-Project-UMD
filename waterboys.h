@@ -33,4 +33,3 @@ void translate(float curX, float curY, float idealX, float idealY);
 
 
 #endif 
-
