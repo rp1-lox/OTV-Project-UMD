@@ -2,15 +2,18 @@
 #include "waterboys.h"
 #include "Enes100.h"
 
+
+
+
 // at some point we need to move this to main 
 void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
 void relmotion(extern float heading, char axis, float d)
 
-
+//float targettolerance = 0.05
 
 void translate(float curX, float curY, float idealX, float idealY){
-    if (abs(idealX-curX) > 0.1) relmotion(H, 'x', (idealX-curX));
-    else if (abs(idealY-curY) > 0.1) relmotion(H, 'y', idealY-curY);
+    if (abs(idealX-curX) > 0.1/*tolerance*/) relmotion(H, 'x', (idealX-curX));
+    else if (abs(idealY-curY) > 0.1/*tolerance*/) relmotion(H, 'y', idealY-curY);
 }
 
   
@@ -128,6 +131,8 @@ void relmotion(float heading, char axis, float delta){
   else if (abs(abs(heading) - 3.14) < 0.2) headingIdx = 2; // South
   else if (abs(heading + 1.57) < 0.2) headingIdx = 3; // West
   
+//else if orient to heading function
+
   // Map axis and movement to index
   if (axis == 'x') {
     if (delta > 0.1) moveIdx = 3;    // Move right
@@ -144,7 +149,8 @@ void relmotion(float heading, char axis, float delta){
     { back, go, right, left }, // Heading S
     { left, right, back, go }  // Heading W
   };
-
+  
+  //int movetime = ;  //Defines the movetime for a movement moving toward idealx idealy
   // If both indices are valid, perform movement
   if (headingIdx != -1 && moveIdx != -1) {
     moveRelative[headingIdx][moveIdx]();

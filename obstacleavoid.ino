@@ -7,7 +7,7 @@ using namespace std;
 float position == wifimodule.getY();
 int samples == 9;
 int depths[samples];
-float tolerances = 1; //this should be replaced by something else!!!! determine proper tolerances!!!!!!!
+float tolerances = 1;  //ultrasonic tolerance tbd //unit? //this should be replaced by something else!!!! determine proper tolerances!!!!!!!
 float blockPos[] = {0.5, 1, 1.5};
 float score[3];
 int chosenBlock = 0;
@@ -17,24 +17,25 @@ void avoid(){
 for (int i = 0; i < samples; i++){
     idealy = 0.25+(((i*0.5)/(samples/3)));
     translation.loop();
-    depth[i] = ultrasonic.depth();
+    depth[i] = ultrasonic.depth(); //need ultrasonic file from yishiya
 }
 
 
 for(int i = 0; i < samples; i++){
-    if((i-3 <= 0) && (depth[i] <= tolerance)){
+    if((i-3 < 0) && (depth[i] <= tolerance)){
         score[0] += 1;
-    }else if(i-6 <= 0){
+    }else if(i-6 < 0){
         score[1] += 1;
-    }else if (depth[i] <= tolerance){
+    }else if (depth[i] < tolerance){
         score[2] += 1;
     }
 }
-for(int i = 0; i < samples; i++){
-    if(score[i]==2){
+for(int i = 0; i < 3; i++){
+    if(score[i]>=2){ //could change
         chosenBlock = i;
         break;
     }
+    //print no openings detected
 }
 idealy = blockPos[chosenBlock];
 translation.loop();
