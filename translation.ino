@@ -1,124 +1,78 @@
-#include <stdio.h>
-#include "waterboys.h"
-#include "Enes100.h"
+#include <Enes100.h>
+#include <math.h>
+  
 
 
 
 
-// at some point we need to move this to main 
-void setMotor(int IN1, int IN2, int pwmPIN, bool positive);
-void relmotion(extern float heading, char axis, float d)
 
-//float targettolerance = 0.05
+ /* X = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
+  Y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
+  H = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
+  V = Enes100.isVisible(); // Is your aruco visible? True or False.
+  
+  translate(curX, curY, idealX, idealY);*/
+
 
 void translate(float curX, float curY, float idealX, float idealY){
-    if (abs(idealX-curX) > 0.1/*tolerance*/) relmotion(H, 'x', (idealX-curX));
-    else if (abs(idealY-curY) > 0.1/*tolerance*/) relmotion(H, 'y', idealY-curY);
+    if (abs(idealX-curX) > 0.1){
+      relmotion(H, 'x', (idealX-curX));
+      Enes100.println("y");
+    } 
+    else if (abs(idealY-curY) > 0.1){
+      relmotion(H, 'y', idealY-curY);
+      Enes100.println("x");
+    } 
+    delay(200);
 }
 
-  
-// Motor A (HB1)(OUT1/OUT2)(Front Right)
-const int A_IN1 = 22;
-const int A_IN2 = 23;
-const int A_ENA = 4;   // PWM
-
-// Motor B (HB1)(OUT3/OUT4)(Back Right)
-const int B_IN3 = 24;
-const int B_IN4 = 25;
-const int B_ENB = 5;   // PWM
-
-// Motor C (HB2)(OUT1/OUT2)(Back Left)
-const int C_IN5 = 26;
-const int C_IN6 = 27;
-const int C_ENC = 6;   // PWM
-
-// Motor D (HB2)(OUT3/OUT4) (Front Left)
-const int D_IN7 = 28;
-const int D_IN8 = 29;
-const int D_END = 7;   // PWM
-
-const int SPEED = 150; // Change this value as needed(changes the pwm)
-
-void setup() {
-
-  pinMode(A_IN1, OUTPUT);
-  pinMode(A_IN2, OUTPUT);
-  pinMode(A_ENA, OUTPUT);
-
-  pinMode(B_IN3, OUTPUT);
-  pinMode(B_IN4, OUTPUT);
-  pinMode(B_ENB, OUTPUT);
-
-  pinMode(C_IN5, OUTPUT);
-  pinMode(C_IN6, OUTPUT);
-  pinMode(C_ENC, OUTPUT);
-
-  pinMode(D_IN7, OUTPUT);
-  pinMode(D_IN8, OUTPUT);
-  pinMode(D_END, OUTPUT);
-
-  motorsOff();
-
-}
-
-
-
-void setMotor(int IN1, int IN2, int pwmPIN, bool positive) {
+void setMotor(int IN1, int IN2, int pwmPIN, int speed, bool positive) {
   digitalWrite(IN1, positive ? HIGH : LOW);
   digitalWrite(IN2, positive ? LOW : HIGH);
-  analogWrite(pwmPIN, SPEED);
+  analogWrite(pwmPIN, speed);
+}
+void back(){
+    setMotor(A_IN1, A_IN2, A_ENA, SA, true);
+    setMotor(B_IN3, B_IN4, B_ENB, SB, false);
+    setMotor(C_IN5, C_IN6, C_ENC, SC, false);
+    setMotor(D_IN7, D_IN8, D_END, SD, true);
 }
 
 void go(){
-    setMotor(A_IN1, A_IN2, A_ENA, true);
-    setMotor(B_IN3, B_IN4, B_ENB, false);
-    setMotor(C_IN5, C_IN6, C_ENC, false);
-    setMotor(D_IN7, D_IN8, D_END, true);
-}
-
-void back(){
-    setMotor(A_IN1, A_IN2, A_ENA, false);
-    setMotor(B_IN3, B_IN4, B_ENB, true);
-    setMotor(C_IN5, C_IN6, C_ENC, true);
-    setMotor(D_IN7, D_IN8, D_END, false);
+    setMotor(A_IN1, A_IN2, A_ENA, SA, false);
+    setMotor(B_IN3, B_IN4, B_ENB, SB, true);
+    setMotor(C_IN5, C_IN6, C_ENC, SC, true);
+    setMotor(D_IN7, D_IN8, D_END, SD, false);
 }
 
 void left(){
-    setMotor(A_IN1, A_IN2, A_ENA, true);
-    setMotor(B_IN3, B_IN4, B_ENB, true);
-    setMotor(C_IN5, C_IN6, C_ENC, false);
-    setMotor(D_IN7, D_IN8, D_END, false);
+    setMotor(A_IN1, A_IN2, A_ENA, SA, true);
+    setMotor(B_IN3, B_IN4, B_ENB, SB, true);
+    setMotor(C_IN5, C_IN6, C_ENC, SC, false);
+    setMotor(D_IN7, D_IN8, D_END, SD, false);
 }
 
 void right(){
-    setMotor(A_IN1, A_IN2, A_ENA, false);
-    setMotor(B_IN3, B_IN4, B_ENB, false);
-    setMotor(C_IN5, C_IN6, C_ENC, true);
-    setMotor(D_IN7, D_IN8, D_END, true);
+    setMotor(A_IN1, A_IN2, A_ENA, SA, false);
+    setMotor(B_IN3, B_IN4, B_ENB, SB, false);
+    setMotor(C_IN5, C_IN6, C_ENC, SC, true);
+    setMotor(D_IN7, D_IN8, D_END, SD, true);
 }
 
 void cw(){
-    setMotor(A_IN1, A_IN2, A_ENA, false);
-    setMotor(B_IN3, B_IN4, B_ENB, false);
-    setMotor(C_IN5, C_IN6, C_ENC, false);
-    setMotor(D_IN7, D_IN8, D_END, false);
+    setMotor(A_IN1, A_IN2, A_ENA, SA, false);
+    setMotor(B_IN3, B_IN4, B_ENB, SB, true);
+    setMotor(C_IN5, C_IN6, C_ENC, SC, false);
+    setMotor(D_IN7, D_IN8, D_END, SD, true);
 }
 
 void ccw(){
-    setMotor(A_IN1, A_IN2, A_ENA, true);
-    setMotor(B_IN3, B_IN4, B_ENB, true);
-    setMotor(C_IN5, C_IN6, C_ENC, true);
-    setMotor(D_IN7, D_IN8, D_END, true);
+    setMotor(A_IN1, A_IN2, A_ENA, SA, true);
+    setMotor(B_IN3, B_IN4, B_ENB, SB, false);
+    setMotor(C_IN5, C_IN6, C_ENC, SC, true);
+    setMotor(D_IN7, D_IN8, D_END, SD, false);
 }
 
-
-void stop() {
-    // Set all PWM values to 0 to stop motors
-    analogWrite(A_PWA, 0);
-    analogWrite(B_PWB, 0);
-    analogWrite(C_PWC, 0);
-    analogWrite(D_PWD, 0);
-}
 
 // Relational movement based on heading and coordinate axis
 void relmotion(float heading, char axis, float delta){
@@ -131,8 +85,6 @@ void relmotion(float heading, char axis, float delta){
   else if (abs(abs(heading) - 3.14) < 0.2) headingIdx = 2; // South
   else if (abs(heading + 1.57) < 0.2) headingIdx = 3; // West
   
-//else if orient to heading function
-
   // Map axis and movement to index
   if (axis == 'x') {
     if (delta > 0.1) moveIdx = 3;    // Move right
@@ -149,8 +101,7 @@ void relmotion(float heading, char axis, float delta){
     { back, go, right, left }, // Heading S
     { left, right, back, go }  // Heading W
   };
-  
-  //int movetime = ;  //Defines the movetime for a movement moving toward idealx idealy
+
   // If both indices are valid, perform movement
   if (headingIdx != -1 && moveIdx != -1) {
     moveRelative[headingIdx][moveIdx]();

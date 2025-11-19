@@ -7,5 +7,5 @@ Here are the steps:
    
 
 */
-#include <translation.ino>
+//#include "translation.ino"
 //also need to include the enes100 library and the wifi module library 

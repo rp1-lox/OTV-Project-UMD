@@ -1,17 +1,38 @@
-#include <studio.h>
+#include <stdio.h>
 #include "waterboys.h"
-#include "Enee100.h"
+#include "Enes100.h"
 
 void setup(){
-    /*
-    initialize all pin numbers here
+    //    initialize all pin numbers here
+  pinMode(A_IN1, OUTPUT);
+  pinMode(A_IN2, OUTPUT);
+  pinMode(A_ENA, OUTPUT);
+
+  pinMode(B_IN3, OUTPUT);
+  pinMode(B_IN4, OUTPUT);
+  pinMode(B_ENB, OUTPUT);
+
+  pinMode(C_IN5, OUTPUT);
+  pinMode(C_IN6, OUTPUT);
+  pinMode(C_ENC, OUTPUT);
+
+  pinMode(D_IN7, OUTPUT);
+  pinMode(D_IN8, OUTPUT);
+  pinMode(D_END, OUTPUT);
+
+//for wifi module
+
+    // Initialize Enes100 Library
+    // Team Name, Mission Type, Marker ID, Room Number, Wifi Module TX Pin, Wifi Module RX Pin
+    int txpin = 50;
+    int rxpin = 51;
+    Enes100.begin("Waterboys", WATER, 284, 1120, txpin, rxpin);
+    // At this point we know we are connected.
+    Enes100.println("Connected...");
+
+    float V = Enes100.isVisible(); // Is your aruco visible? True or False.
+
     
-    
-    
-    
-    
-    
-    */
 }
 
 
@@ -22,29 +43,39 @@ float H;//heading
 bool V;//visibility
 
 //define global variables here
-int step = 0;
+int step = 1;
 int m_step = 0;
 char starting_point = 0;
 
 
 //start the loop here
 void loop(){
-    X = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
-    Y = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
-    H = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
-    V = Enes100.isVisible(); // Is your aruco visible? True or False.
-    if( V == 0 ){
-        Enes100.println("OTV not visible");
-        return;
-    }
+    float curX = Enes100.getX();  // Your X coordinate! 0-4, in meters, -1 if no aruco is not visibility (but you should use Enes100.isVisible to check that instead)
+    float curY = Enes100.getY();  // Your Y coordinate! 0-2, in meters, also -1 if your aruco is not visible.
+    float H = Enes100.getTheta();  //Your theta! -pi to +pi, in radians, -1 if your aruco is not visible.
+
+    float idealH = 0; ///////weird
+    float idealX = 0;
+    float idealY = 0;
+
+    //if( V == 0 ){
+     //   Enes100.println("OTV not visible");
+      //  de(100);
+       // return;
+    //}
     switch(step){
         case 1://determine the starting point
-            starting_point = a_or_b (Y);
-            step += 1;  
+            starting_point = a_or_b(curY);
+            step += 1;
+            Enes100.print("Starting point: ");
+            Enes100.println(starting_point);
         case 2://rotate to propper orientation
-            if(starting_point == 'a'){
+            if(starting_point == 'a'){ ////////
                 if(abs(idealH-H) >= 0.1){
-                    ortient(H, idealH/*set the idealH*/);
+                    //orient(H, idealH/*set the idealH*/);
+                     Enes100.println(step);
+                     step+=1; 
+                     return;
                 }
                 else if((abs(idealH-H) < 0.1)){
                     step += 1;
@@ -53,11 +84,12 @@ void loop(){
                 else{
                    Enes100.println("case 2, 'a', could rotate to idealH/*change this*/"); 
                    return;//check if this sends back to the loop()
+                   Enes100.println("if you're reading this we need orient");
                 }
             }
             else if(starting_point == 'b'){
                 if(abs(idealH-H) >= 0.1){
-                    ortient(H, idealH/*set the idealH*/);
+                    //orient(H, idealH/*set the idealH*/);
                 }
                 else if((abs(idealH-H) < 0.1)){
                     step += 1;
@@ -72,20 +104,28 @@ void loop(){
 
             }
         case 3://move to mission
+            Enes100.println(step);
+            idealX = 0.5;
+            idealY = curY;
+            Enes100.println(idealX);
+            Enes100.println(idealY);
+            Enes100.println(curX);
+            Enes100.println(curY);
+            
             if(starting_point == 'a'){
-                if (abs(/*idealX-curX*/) > 0.1 || abs(/*idealY-curY*/) > 0.1){
-                    translate(/*float curX, float curY, float idealX, float idealY*/);
+                if (abs(idealX-curX) > 0.1 || abs(idealY-curY) > 0.1){
+                    translate(curX, curY, idealX, idealY);
                 }
-                else if (abs(/*idealX-curX*/) > 0.1 && abs(/*idealY-curY*/) < 0.1){
+                else if (abs(idealX-curX) > 0.1 && abs(idealY-curY) < 0.1){
                     step += 1;
                     break;
                 }
             }
             else if(starting_point == 'b'){
-                if (abs(/*idealX-curX*/) > 0.1 || abs(/*idealY-curY*/) > 0.1){
-                    translate(/*float curX, float curY, float idealX, float idealY*/);
+                if ((abs(idealX-curX) > 0.1) || (abs(idealY-curY) > 0.1)){
+                    translate(curX, curY, idealX, idealY);
                 }
-                else if (abs(/*idealX-curX*/) > 0.1 && abs(/*idealY-curY*/) < 0.1){
+                else if ((abs(idealX-curX) > 0.1 && (abs(idealY-curY) < 0.1))){
                     step += 1;
                     break;
                 }
@@ -96,9 +136,7 @@ void loop(){
                 break;
             }
         case 4: //make sure that the arduino is at the mission zone. do this by using the 
-            
-
-            
+          break;
 
 
 
