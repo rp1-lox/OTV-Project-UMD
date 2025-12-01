@@ -21,7 +21,7 @@ void setup(){
   pinMode(D_END, OUTPUT);
 
 //for wifi module
-
+//test
     // Initialize Enes100 Library
     // Team Name, Mission Type, Marker ID, Room Number, Wifi Module TX Pin, Wifi Module RX Pin
     int txpin = 50;
