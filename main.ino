@@ -72,7 +72,7 @@ void loop(){
         case 2://rotate to propper orientation
             if(starting_point == 'a'){ ////////
                 if(abs(idealH-H) >= 0.1){
-                    //orient(H, idealH/*set the idealH*/);
+                    orient(H, idealH/*set the idealH*/);
                      Enes100.println(step);
                      step+=1; 
                      return;
